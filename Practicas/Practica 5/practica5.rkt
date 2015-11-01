@@ -1,0 +1,61 @@
+#lang plai
+(require "practica5-base.rkt")
+
+
+(define (desugar expr)
+  (type-case FAES expr
+    [numS (n) (num (numS-n expr))]
+    [withS (l b) (app (fun
+                       (list (bind-name (car (withS-bindings expr))))
+                       (desugar (withS-body expr)))
+                       (list (desugar(bind-val (car (withS-bindings expr))))) )]
+    [with*S (l b) (app (fun
+                       (list (bind-name (car (with*S-bindings expr))))
+                       (desugar (with*S-body expr)))
+                       (list (desugar(bind-val (car (with*S-bindings expr))))) )]
+    [idS (s) (id (idS-name expr))]
+    ;;(funS '(x) (idS 'w))
+    [funS (l b) (fun
+                 (funS-params expr)
+                 (desugar (funS-body expr)))]
+    [appS (f l) (app
+                 (desugar (appS-fun expr))
+                 (list (desugar (car (appS-args expr)))) )]
+    [binopS (f l r) (binop
+                     (binopS-f expr)
+                     (desugar (binopS-l expr))
+                     (desugar (binopS-r expr)))]))
+
+(define (cparse sexp)
+  (desugar (parse sexp)))
+
+
+;; add-numbers RCFAEL RCFAEL -> RCFAEL
+;toma dos subtipos del tipo numV y realiza una operación
+;;de aridad 2
+;;El resultado es un del tipo: numV
+(define (opera-numbers binop numa numb)
+  (numV (binop (numV-n numa)
+          (numV-n numb))))
+
+
+
+(define (rinterp expr)
+  (interp expr (mtSub)))
+
+;;pag 117 del pdf
+
+(define (interp expr env)
+  (type-case RCFAEL expr
+    [num (n) (numV n)]
+    [id (n) #t]
+    [fun (l b) #t] 
+    [app (f l) #t]
+    [if0 (l m n) #t]
+    [binop (f l r) (opera-numbers
+                        (binop-f expr);;la operacion
+                           (interp (binop-l expr) env);;lado izq
+                           (interp (binop-r expr) env))   ];;lado derecho
+    [rec (id n m) #t]))
+
+
