@@ -37,6 +37,10 @@ max-hr, collapse-trackpoints.
 
 ## Tareas
 
+### Tarea 1
+
+**Calificación: 0**
+
 ### Tarea 2
 
 No subieron un PDF, la siguiente tarea sin PDF la calificación sera directo 0.
