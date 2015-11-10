@@ -21,65 +21,32 @@
 (define-type RCFAEL;FAE
   [num (n number?)]
   [id (name symbol?)]
-  [bool (l boolean?)]
-  [lista (n MList?)];;?
-  [with (name symbol?)
-        (named-expr RCFAEL?)
-        (body RCFAEL?)]
-  [rec (id symbol?)
-       (n RCFAEL?);;?????
-       (m RCFAEL?)]
   [fun (params (listof symbol?))
        (body RCFAEL?)]
-  [equal (e symbol?)]
   [app (fun RCFAEL?)
        (args (listof RCFAEL?))]
-  [ifR (cond bool?)
-       (then RCFAEL?)
-       (else RCFAEL?)]
   [binop (f procedure?)
          (l RCFAEL?)
          (r RCFAEL?)]
+    [if0 (n RCFAEL?)
+       (m RCFAEL?)
+       (p RCFAEL?)]
+  [rec (id symbol?)
+       (n RCFAEL?);;?????
+       (m RCFAEL?)]
   )
-
-(define-type MList
-  [MEmpty]
-  [MCons (n RCFAEL?)
-         (rest MList?)])
 
 (define-type RCFAEL-Value
   [numV (n number?)]
   [closureV (param (listof symbol?))
             (body RCFAEL?)
-            (env Env?)]
-  [boolV (s symbol?)]
-  [MListV (listof RCFAEL?)]
-  );;?
-
+            (env Env?)])
 
 (define-type Env
-  [ mtSub ]
-  [ aSub (name symbol?)
-         (value RCFAEL-Value?)
-         (env Env?)]
-  [ aRecSub (name symbol?)
-            (value (lambda (x)
-                     (and (box? x)
-                          (RCFAEL-Value? (unbox x)))))
-                   (rnv Env?)])
-
-
-(define (lookup name env)
-  (type-case Env env
-    [ mtSub () (error "lookup no binding for identifier" )]
-    [ aSub (bound-name bound-value rest-env)
-           (if (symbol=? bound-name name)
-               bound-value
-               (lookup name rest-env))]
-    [ aRecSub (bound-name boxed-bound-value rest-env)
-              (if (symbol=? bound-name name)
-                  (unbox boxed-bound-value)
-                  (lookup name rest-env))]))
+  [mtSub]
+  [aSub (name symbol?) 
+        (value RCFAEL-Value?) 
+        (env Env?)])
 
 ; FUNCIONES AUXILIARES
 
@@ -135,5 +102,4 @@
        [(with*) (with*S (parse-bindings (cadr sexp) #t) (parse (caddr sexp)))]
        [(fun) (funS (cadr sexp) (parse (caddr sexp)))]
        [(+ - / *) (binopS (elige (car sexp)) (parse (cadr sexp)) (parse (caddr sexp)))]
-       [else (appS (parse (car sexp)) (map parse (cdr sexp)))])]
-    ))
+       [else (appS (parse (car sexp)) (map parse (cdr sexp)))])]))

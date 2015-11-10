@@ -43,28 +43,19 @@
 (define (rinterp expr)
   (interp expr (mtSub)))
 
-
-
 ;;pag 117 del pdf
 
 (define (interp expr env)
   (type-case RCFAEL expr
     [num (n) (numV n)]
-    [id (n) (lookup n env)]
-    [bool(l) (boolV n)]
-    [MList(m) #t]
-    [with(n m b) #t]
-    [rec (id n m) #t]
-    [fun (l b) #t]
-    [equal(e) #t]
+    [id (n) #t]
+    [fun (l b) #t] 
     [app (f l) #t]
-    [ifR (test then else) (if (test? (interp test env)
-                              (interp then env)
-                              (interp else env)))]
+    [if0 (l m n) #t]
     [binop (f l r) (opera-numbers
                         (binop-f expr);;la operacion
                            (interp (binop-l expr) env);;lado izq
                            (interp (binop-r expr) env))   ];;lado derecho
-    )) 
+    [rec (id n m) #t]))
 
 
