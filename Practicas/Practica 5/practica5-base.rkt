@@ -27,7 +27,7 @@
         (named-expr RCFAEL?)
         (body RCFAEL?)]
   [rec (id symbol?)
-       (n RCFAEL?);;?????
+       (n RCFAEL?)
        (m RCFAEL?)]
   [fun (params (listof symbol?))
        (body RCFAEL?)]
@@ -54,7 +54,7 @@
             (env Env?)]
   [boolV (s symbol?)]
   [MListV (listof RCFAEL?)]
-  );;?
+  )
 
 
 (define-type Env

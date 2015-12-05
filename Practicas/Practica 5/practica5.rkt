@@ -51,8 +51,8 @@
   (type-case RCFAEL expr
     [num (n) (numV n)]
     [id (n) (lookup n env)]
-    [bool(l) (boolV n)]
-    [MList(m) #t]
+    [bool(l) (boolV l)]
+    [lista(m) #t]
     [with(n m b) #t]
     [rec (id n m) #t]
     [fun (l b) #t]
