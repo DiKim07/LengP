@@ -59,3 +59,7 @@ Problema 3: No dan el ejemplo ni indican cuales son las diferencias.
 Problema 4: Nada que ver con lo que se pedia sobre evaluación perezosa y estado.
 
 **Calificación: 0**
+
+### Tarea 3
+
+**Calificación: 0**
