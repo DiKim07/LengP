@@ -39,6 +39,17 @@ max-hr, collapse-trackpoints.
 
 **Calificación: 0**
 
+### Practica 5
+
+**Calificación: 0**
+
+### Practica 6
+
+Dado que no hay herencia o polimorfismo tienen
+dos puntos menos.
+
+**Calificación: 4**
+
 ## Tareas
 
 ### Tarea 1
